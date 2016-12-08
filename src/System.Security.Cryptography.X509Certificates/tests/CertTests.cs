@@ -240,6 +240,21 @@ namespace System.Security.Cryptography.X509Certificates.Tests
         }
 
         [Fact]
+        public static void X509Certificate2FromPkcs7PemBlob_ShouldHaveUID()
+        {
+            byte[] rawData = Convert.FromBase64String("MIIFnzCCBIegAwIBAgIIdo+s3oP49T8wDQYJKoZIhvcNAQEFBQAwgZYxCzAJBgNVBAYTAlVTMRMwEQYDVQQKDApBcHBsZSBJbmMuMSwwKgYDVQQLDCNBcHBsZSBXb3JsZHdpZGUgRGV2ZWxvcGVyIFJlbGF0aW9uczFEMEIGA1UEAww7QXBwbGUgV29ybGR3aWRlIERldmV"
+                                                    + "sb3BlciBSZWxhdGlvbnMgQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkwHhcNMTYwMjA4MTU0MzQwWhcNMTcwMjA3MTU0MzQwWjCBkjEaMBgGCgmSJomT8ixk" + 
+                "AQEMClBXV1M1VEtOQk0xOTA3BgNVBAMMMGlQaG9uZSBEaXN0cmlidXRpb246IFF1YW1vdGlvbiBzcHJsIChQV1dTNVRLTkJNKTETMBEGA1UECwwKUFdXUzVUS05CTTEXMBUGA1UECgwOUXVhbW90aW9uIHNwcmwxCzAJBgNVBAYTAlVTMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsZRJE85+iTE/tODPi98Xn82C/oCtB97dTHToWoaQRA4kNCNmreedVnTFLGHa5JnKIBtMao+0qPkWxn/o76PuzlRa0r1oXcwwkgAYUE6S8Okzd9PmOGeXhunpuwPNRmyBJ0+oeo0UTg" +  
+                "UY97YUvypvrg6z8ZJpcXGICP6bCaHm8XjPaNPJRH8HCL56HPULtq+9Vt+xMCcCgt4joRFtvzEA8m3vItenUQvVrHI6kyjYcfQh/ANvSXWZyAkDQ1T1AqrljZ1SK/BTH4uIENWu32GglLFJj3UVed3FWO2uy6GYjarhcRkwmYbztJcMc5vLHyBesPPDqpWPmTjk5CvY8qYxTwIDAQABo4IB8TCCAe0wHQYDVR0OBBYEFMXm/a/Rf5kzjcap9LxSO7aYNzVdMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUiCcXCam2GGCL7Ou69kdZxVJUo7cwggEPBgNVHSAEggEGMIIBAjCB/wYJKoZI" + 
+                "hvdjZAUBMIHxMIHDBggrBgEFBQcCAjCBtgyBs1JlbGlhbmNlIG9uIHRoaXMgY2VydGlmaWNhdGUgYnkgYW55IHBhcnR5IGFzc3VtZXMgYWNjZXB0YW5jZSBvZiB0aGUgdGhlbiBhcHBsaWNhYmxlIHN0YW5kYXJkIHRlcm1zIGFuZCBjb25kaXRpb25zIG9mIHVzZSwgY2VydGlmaWNhdGUgcG9saWN5IGFuZCBjZXJ0aWZpY2F0aW9uIHByYWN0aWNlIHN0YXRlbWVudHMuMCkGCCsGAQUFBwIBFh1odHRwOi8vd3d3LmFwcGxlLmNvbS9hcHBsZWNhLzBNBgNVHR8ERjBEMEKgQKA+hj" + 
+                "xodHRwOi8vZGV2ZWxvcGVyLmFwcGxlLmNvbS9jZXJ0aWZpY2F0aW9uYXV0aG9yaXR5L3d3ZHJjYS5jcmwwDgYDVR0PAQH/BAQDAgeAMBYGA1UdJQEB/wQMMAoGCCsGAQUFBwMDMBMGCiqGSIb3Y2QGAQQBAf8EAgUAMA0GCSqGSIb3DQEBBQUAA4IBAQCPqzl6lemCu/TUdag7qnCP81c++y6E29gFy+dWJ1sYx/heytn5TX+Byd3OdEz2/DoSkhbNswLwuZ1SLfjJs1L/1FC5y8D9W5oaMTnbToqIcYY6jLLIkV3ALvBf08ReKdh+875yvE9vsPC0Uzfljh/nrZ/1104POJiTYLHrbIAa" + 
+                "5sEOxrn/lGhH6hGPkmMKHRqMh7v++Z12tat63Ul0mZNCqrShBQi+mH7jV7nik/gZVZW+knxtfcGuDsSZZHLRSGpa6JUe7qCJQ8Y8r5QZqXJGdue11VFGq7/H+L/bQ4X0QxYq9IweD12DoTGWu/UXaL62w868wec808VNOKynDFBS");
+            var certificate = new X509Certificate2(rawData: rawData, password: (string)null, keyStorageFlags: X509KeyStorageFlags.Exportable);
+
+            Assert.Equal("C=US, O=Quamotion sprl, OU=PWWS5TKNBM, CN=iPhone Distribution: Quamotion sprl (PWWS5TKNBM), userId=PWWS5TKNBM", certificate.Subject);
+        }
+
+        [Fact]
         public static void UseAfterDispose()
         {
             using (X509Certificate2 c = new X509Certificate2(TestData.MsCertificate))
